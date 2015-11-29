@@ -6,8 +6,17 @@ from email.MIMEText import MIMEText
 from email.MIMEBase import MIMEBase
 from email import encoders
 import os
+import sys
+import tarfile
+import datetime
+
+currentTime= str( datetime.datetime.now() )
 
 path = os.getcwd()
+
+if (len(sys.argv) != 2):
+	print("You must enter a directory")
+	exit()
 
 sender = "dka271@vt.edu"
 recipient = "dka271@vt.edu"
@@ -16,13 +25,15 @@ message = MIMEMultipart()
 
 message[ 'From' ] = sender
 message[ 'To' ] = recipient
-message[ 'Subject' ] = "This is a back-up of a tar file"
+message[ 'Subject' ] = "This is a back-up of "+ sys.argv[1] + " on " + currentTime
 
-textBody = "Body of the text"
-
+textBody = "Directory passed in: " +  sys.argv[1] + "\nTime it was backed up: " + currentTime
 message.attach(MIMEText(textBody, 'plain'))
 
-fileName = "testTar.tar"
+with tarfile.open("tarfile.tar.gz", mode='w:gz') as archive:
+	archive.add(sys.argv[1], recursive=True)
+
+fileName = "tarfile.tar.gz"
 path = path + "/" + fileName
 attachment = open(path, "rb")
 
