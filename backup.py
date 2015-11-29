@@ -22,8 +22,8 @@ if (len(sys.argv) != 2):
 	exit()
 
 #Checks to make sure that the directory exists
-if (os.path.isdir(path)):
-	print("The directory entered does not exist")
+if not (os.path.isdir(path)):
+	print(path + " does not exist")
 	exit()
 
 #Sets the sender and recipient of the email
@@ -57,6 +57,9 @@ part.add_header('Content-Disposition', "attachment; filename= %s" % fileName)
 
 #Attach the file
 message.attach(part)
+
+#Removes the temporary tar file from the directory
+os.remove(path)
 
 #Actually connects securely to the server, and sends the email
 server = smtplib.SMTP('smtp.gmail.com', 587)
