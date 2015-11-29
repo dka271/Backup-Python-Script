@@ -1,28 +1,23 @@
 #!/usr/bin/python
 
 import smtplib
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
 
-SERVER = "localhost"
+sender = "dka271@vt.edu"
+recipient = "dka271@vt.edu"
+message = MIMEMultipart()
+message[ 'From' ] = sender
+message[ 'To' ] = recipient
+message[ 'Subject' ] = "Backup python script test"
 
-FROM = "dka271@vt.edu"
-TO = ["dka271@vt.edu"]
+textBody = "This is testing the text body"
+message.attach(MIMEText(textBody, 'plain'))
 
-SUBJECT = "Backup of thingy"
+server = smtplib.SMTP('smtp.gmail.com', 587)
+server.starttls()
+server.login(sender, "Medaridley-1")
+text = message.as_string()
 
-TEXT = "This message was sent as a backup for:\n"
-
-#Prepare actual message
-
-message = """\
-From: %s
-To: %s
-Subject: %s
-
-%s
-""" % (FROM, ", ".join(TO), SUBJECT, TEXT)
-
-#Send the mail
-
-server = smtplib.SMTP(SERVER);
-server.sendmail(FROM, TO, message)
+server.sendmail(sender, recipient, text)
 server.quit()
