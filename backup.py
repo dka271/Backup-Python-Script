@@ -27,8 +27,8 @@ if not (os.path.isdir(path)):
 	exit()
 
 #Sets the sender and recipient of the email
-sender = "dka271@vt.edu"
-recipient = "dka271@vt.edu"
+sender = "<ENTER YOUR EMAIL ADDRESS HERE>"	#CHANGE THIS LOCATION
+recipient = "<ENTER YOUR EMAIL ADDRESS HERE>"	#CHANGE THIS LOCATION
 
 #Sets the subject and applies To and From to the email
 message = MIMEMultipart()
@@ -64,7 +64,7 @@ os.remove(path)
 #Actually connects securely to the server, and sends the email
 server = smtplib.SMTP('smtp.gmail.com', 587)
 server.starttls()
-server.login(sender, "Medaridley-1")
+server.login(sender, "<ENTER YOUR EMAIL PASSWORD HERE(FOR SENDER EMAIL)>")	#CHANGE THIS LOCATION
 text = message.as_string()
 server.sendmail(sender, recipient, text)
 server.quit()
